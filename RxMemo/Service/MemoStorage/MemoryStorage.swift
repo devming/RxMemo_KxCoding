@@ -11,6 +11,7 @@ import RxSwift
 
 /// 메모리에 메모 저장
 class MemoryStorage: MemoStorageType {
+    /// Dummy data.
     private var list = [
         Memo(content: "Hello, RxSwift", insertDate: Date().addingTimeInterval(-10)),
         Memo(content: "Lorem Ipsum", insertDate: Date().addingTimeInterval(-20))
