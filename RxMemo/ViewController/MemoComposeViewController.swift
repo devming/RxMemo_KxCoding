@@ -18,6 +18,6 @@ class MemoComposeViewController: UIViewController, ViewModelBindableType {
     }
 
     func bindViewModel() {
-        ViewModelBindableType
+        
     }
 }
