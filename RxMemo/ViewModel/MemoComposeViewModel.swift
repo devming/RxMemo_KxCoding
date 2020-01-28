@@ -11,7 +11,9 @@ import RxSwift
 import RxCocoa
 import Action
 
-/// Compose Scene에서 사용
+/// Step 11.
+/// MemoComposseViewModel 구현
+/// - Compose Scene에서 사용한다.
 class MemoComposeViewModel: CommonViewModel {
     /// 메모를 저장하는 속성
     private let content: String?
@@ -44,3 +46,5 @@ class MemoComposeViewModel: CommonViewModel {
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
 }
+/// Step 12.
+/// 메모 쓰기화면 구현 -> Main.storyboard
