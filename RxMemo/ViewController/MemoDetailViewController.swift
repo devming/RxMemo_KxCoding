@@ -10,6 +10,8 @@
  Step 14. 메모 보기 화면 구현
  */
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MemoDetailViewController: UIViewController, ViewModelBindableType {
 
@@ -52,6 +54,17 @@ class MemoDetailViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         editButton.rx.action = viewModel.makeEditAction()
+        
+        
+        shareButton.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)/// double tap 막기
+            .subscribe(onNext: { [weak self] _ in
+                guard let memo = self?.viewModel.memo.content else { return }
+                
+                let vc = UIActivityViewController(activityItems: [memo], applicationActivities: nil)
+                self?.present(vc, animated: true, completion: nil)
+            })
+            .disposed(by: rx.disposeBag)
         
 //        /// 기본으로 제공되는 navigationController의 back button을 대체하는 코드
 //        var backButton = UIBarButtonItem(title: nil, style: .done, target: nil, action: nil)
