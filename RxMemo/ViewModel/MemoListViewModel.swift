@@ -42,4 +42,14 @@ class MemoListViewModel: CommonViewModel {
             
         }
     }
+    
+    /// Step 16. 화면 전환 구현
+    lazy var detailAction: Action<Memo, Void> = {
+        return Action { memo in
+            /// viewmodel 생성 -> scene 생성 -> sceneCoordinator에서 transition메소드 수행
+            let detailViewModel = MemoDetailViewModel(memo: memo, title: "메모 보기", sceneCoordinator: self.sceneCoordinator, storage: self.storage)
+            let detailScene = Scene.detail(detailViewModel)
+            return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map { _ in }
+        }
+    }()
 }
