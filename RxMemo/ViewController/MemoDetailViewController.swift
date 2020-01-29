@@ -51,6 +51,8 @@ class MemoDetailViewController: UIViewController, ViewModelBindableType {
             }
             .disposed(by: rx.disposeBag)
         
+        editButton.rx.action = viewModel.makeEditAction()
+        
 //        /// 기본으로 제공되는 navigationController의 back button을 대체하는 코드
 //        var backButton = UIBarButtonItem(title: nil, style: .done, target: nil, action: nil)
 //        viewModel.title
