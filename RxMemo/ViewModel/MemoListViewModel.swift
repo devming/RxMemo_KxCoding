@@ -6,15 +6,31 @@
 //  Copyright © 2020 devming. All rights reserved.
 //
 
+import UIKit
 import RxSwift
 import RxCocoa
 import Action
+import RxDataSources
+
+typealias MemoSectionModel = AnimatableSectionModel<Int, Memo>
+
 /**
  Step 13. 화면 전환 구현
  - Cocoa에서는 segue가 화면전환을 처리하지만, MVVM으로 구현할때는 ViewModel이 구현합니다.
  */
 class MemoListViewModel: CommonViewModel {
-    var memoList: Observable<[Memo]> {
+    let dataSource: RxTableViewSectionedAnimatedDataSource<MemoSectionModel> = {
+        let ds = RxTableViewSectionedAnimatedDataSource<MemoSectionModel>(configureCell: {(dataSource, tableView, indexPath, memo) -> UITableViewCell in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = memo.content
+            return cell
+        })
+        
+        ds.canEditRowAtIndexPath = { _, _ in return true }
+        return ds
+    }()
+    
+    var memoList: Observable<[MemoSectionModel]> {
         return storage.memoList()
     }
     
@@ -50,6 +66,12 @@ class MemoListViewModel: CommonViewModel {
             let detailViewModel = MemoDetailViewModel(memo: memo, title: "메모 보기", sceneCoordinator: self.sceneCoordinator, storage: self.storage)
             let detailScene = Scene.detail(detailViewModel)
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map { _ in }
+        }
+    }()
+    
+    lazy var deleteAction: Action<Memo, Swift.Never> = {
+        return Action { memo in
+            return self.storage.delete(memo: memo).ignoreElements()
         }
     }()
 }

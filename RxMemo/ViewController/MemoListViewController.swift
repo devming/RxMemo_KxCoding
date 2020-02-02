@@ -33,10 +33,8 @@ class MemoListViewController: UIViewController, ViewModelBindableType {
         
         /// 메모목록을 tableView에 binding
         viewModel.memoList
-            .bind(to: listTableView.rx.items(cellIdentifier: "cell")) { row, memo, cell in
-                /// cell 구성 코드
-                cell.textLabel?.text = memo.content
-            }.disposed(by: rx.disposeBag)
+            .bind(to: listTableView.rx.items(dataSource: viewModel.dataSource))
+            .disposed(by: rx.disposeBag)
         
         addButton.rx.action = viewModel.makeCreateAction()
         
@@ -47,6 +45,13 @@ class MemoListViewController: UIViewController, ViewModelBindableType {
             })
             .map { $0.0 }
             .bind(to: viewModel.detailAction.inputs)    /// 선택한 메모가 detailAction에 구현된 코드가 실행된다.
+            .disposed(by: rx.disposeBag)
+        
+        /// Step 20. 메모 삭제
+        /// modelDeleted메소드는 ControlEvent이벤트 리턴.
+        /// ControlEvent는 삭제하면 next이벤트 방출
+        listTableView.rx.modelDeleted(Memo.self)
+            .bind(to: viewModel.deleteAction.inputs)
             .disposed(by: rx.disposeBag)
     }
 }
