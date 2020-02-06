@@ -29,6 +29,7 @@
 		CA7AF17E23CC244D00686F7A /* SceneCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7AF17D23CC244D00686F7A /* SceneCoordinatorType.swift */; };
 		CA7AF18023CC24F900686F7A /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7AF17F23CC24F900686F7A /* SceneCoordinator.swift */; };
 		CA7AF18223CC2B4B00686F7A /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7AF18123CC2B4B00686F7A /* CommonViewModel.swift */; };
+		CAF4EADE23EBAC4900BBC7D1 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF4EADD23EBAC4900BBC7D1 /* CoreDataStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		CA7AF17D23CC244D00686F7A /* SceneCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinatorType.swift; sourceTree = "<group>"; };
 		CA7AF17F23CC24F900686F7A /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		CA7AF18123CC2B4B00686F7A /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
+		CAF4EADD23EBAC4900BBC7D1 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				CA6A34A323C5B06600B5B08D /* RxMemo.xcdatamodeld */,
+				CAF4EADD23EBAC4900BBC7D1 /* CoreDataStorage.swift */,
 			);
 			path = CoreDataStorage;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA7AF16A23CC041A00686F7A /* MemoryStorage.swift in Sources */,
+				CAF4EADE23EBAC4900BBC7D1 /* CoreDataStorage.swift in Sources */,
 				CA7AF17623CC0BD300686F7A /* MemoComposeViewModel.swift in Sources */,
 				CA7AF18023CC24F900686F7A /* SceneCoordinator.swift in Sources */,
 				CA7AF17C23CC0F7000686F7A /* Scene.swift in Sources */,
