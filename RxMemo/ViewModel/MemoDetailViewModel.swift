@@ -48,6 +48,7 @@ class MemoDetailViewModel: CommonViewModel {
         return Action { input in
             self.storage.update(memo: memo, content: input)
                 .subscribe(onNext: { updated in
+                    self.memo = updated
                     self.contents.onNext([updated.content, self.formatter.string(from: updated.insertDate)])
                 })
                 .disposed(by: self.rx.disposeBag)
