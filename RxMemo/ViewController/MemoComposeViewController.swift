@@ -55,20 +55,14 @@ class MemoComposeViewController: UIViewController, ViewModelBindableType {
         let keyboardObservable = Observable.merge(willShowObservable, willHideObservable).share()
         
         keyboardObservable
-            .subscribe(onNext: { [weak self] height in
-                guard let `self` = self else { return }
-                
-                var inset = self.contentTextView.contentInset
-                inset.bottom = height
-                
-                var scrollInset = self.contentTextView.scrollIndicatorInsets
-                scrollInset.bottom = height
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.contentTextView.contentInset = inset
-                    self.contentTextView.scrollIndicatorInsets = scrollInset
-                }
-            }).disposed(by: rx.disposeBag)
+            .toContentInset(of: self.contentTextView)
+            .bind(to: contentTextView.rx.contentInset)
+            .disposed(by: rx.disposeBag)
+        
+        keyboardObservable
+            .toContentInset(of: self.contentTextView)
+            .bind(to: contentTextView.rx.scrollIndicatorInsets)
+            .disposed(by: rx.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +76,35 @@ class MemoComposeViewController: UIViewController, ViewModelBindableType {
         
         if contentTextView.isFirstResponder {
             contentTextView.resignFirstResponder()
+        }
+    }
+}
+
+
+/// Custom 연산자 구현하기
+/// next이벤트에 포함된 요소를 원하는 방식으로 처리한 다음에 결과를 방출하는 새로운 옵저버블을 리턴하는 방식으로 구현한다.
+extension ObservableType where Element == CGFloat { // CGFloat을 방출하는 Observable 형식에서만 적용된다.
+    /// 1. 반복적으로 사용하는 코드를 연산자로 배치하고
+    func toContentInset(of textView: UITextView) -> Observable<UIEdgeInsets> {
+        return map { height in
+            var inset = textView.contentInset
+            inset.bottom = height
+            return inset
+        }
+    }
+}
+
+/// 2. UI와 관련된 속성을 Binder로 구성하면 코드가 단순해진다.
+extension Reactive where Base: UITextView {
+    var contentInset: Binder<UIEdgeInsets> {
+        return Binder(self.base) { textView, inset in
+            textView.contentInset = inset
+        }
+    }
+    
+    var scrollIndicatorInsets: Binder<UIEdgeInsets> {
+        return Binder(self.base) { textView, inset in
+            textView.scrollIndicatorInsets = inset
         }
     }
 }
